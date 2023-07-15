@@ -61,10 +61,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: ListView.separated(
               itemCount: 10,
               itemBuilder: ((context, index) {
-                return ListTile(
+                return const ListTile(
                   title: Text("hello"),
                   subtitle: Text("hello"),
-                  leading: CircleAvatar(child: Icon(Icons.abc)),
+                  leading: CircleAvatar(child: Icon(Icons.accessible)),
                   trailing: Text("#2000"),
                 );
               }),
@@ -77,7 +77,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  widgetSendSheet() {
+  widgetReceiveSheet() {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext ctx) {
@@ -114,7 +114,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         });
   }
 
-  widgetReceiveSheet() {
+  widgetSendSheet() {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext ctx) {
@@ -133,8 +133,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   GestureDetector(
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => QrRecieve()));
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (_) => QrRecieve()));
+                        _showModalBottomSheet(context);
                       },
                       child: Icon(
                         Icons.qr_code,
@@ -143,6 +144,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ));
         });
+  }
+
+  void _showModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+          return Container(
+            // width:MediaQue
+            // Add your content here
+            child: Column(
+              children: [
+              
+                Text('Modal Bottom Sheet'),
+                // Add more widgets as needed
+              ],
+            ),
+          );
+        });
+      },
+    );
   }
 }
 

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class QrRecieve extends StatefulWidget {
-  const QrRecieve({super.key});
+class QrRecieve extends StatelessWidget {
+  String data = "";
+  QrRecieve({super.key, required this.data});
 
-  @override
-  State<QrRecieve> createState() => _QrRecieveState();
-}
-
-class _QrRecieveState extends State<QrRecieve> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,12 +15,18 @@ class _QrRecieveState extends State<QrRecieve> {
       body: Container(
         child: Column(children: [
           Center(
-            child: QrImageView(
-              data: '1234567890',
-              version: QrVersions.auto,
-              size: 300.0,
-            ),
-          )
+            child: (data != '')
+                ? Container(
+                    child: QrImageView(
+                      data: '1234567890',
+                      version: QrVersions.auto,
+                      size: 300.0,
+                    ),
+                  )
+                : Center(
+                    child: CircularProgressIndicator(),
+                  ),
+          ),
         ]),
       ),
     );
