@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "806276087279",
+    "project_id": "cloudtest-6db9b",
+    "storage_bucket": "cloudtest-6db9b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806276087279:android:62be1cc2cec5b34b864a1a",
+        "android_client_info": {
+          "package_name": "com.francisop.olupay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806276087279-9kbi7ssuktpvgmk4aljr8k768b4u1rl8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOqfmOihJqCraX8SsqiDOOBOcAsZ6eriI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "806276087279-9kbi7ssuktpvgmk4aljr8k768b4u1rl8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806276087279:android:d9b081b8ae035fb9864a1a",
+        "android_client_info": {
+          "package_name": "com.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "806276087279-9kbi7ssuktpvgmk4aljr8k768b4u1rl8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOqfmOihJqCraX8SsqiDOOBOcAsZ6eriI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "806276087279-9kbi7ssuktpvgmk4aljr8k768b4u1rl8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
