@@ -1,30 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
-import 'package:olupay/screens/receive/qr_receive.dart';
+import 'package:olupay/screens/send/qr_send.dart';
+import 'package:olupay/service/constants.dart';
 
-import '../send/bluetooth_send.dart';
-import '../send/qr_send.dart';
+import '../../service/firestore_service.dart';
+import '../receive/bluetooth_send.dart';
+import '../receive/qr_receive.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  var userid;
+  DashboardScreen({super.key, required this.userid});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  final _amountController = TextEditingController();
+  final _db = FirestoreService();
+  var dave = {};
+
+// getDatafromfirebase
+  void process() async {
+    print(widget.userid);
+    await _db.getUserById(widget.userid).then((value) => {
+          setState(() {
+            Constants.userDetails = value.data();
+            dave = value.data();
+            print(value.data());
+          })
+        });
+  }
+
+  @override
+  void initState() {
+    process();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: (Constants.userDetails.isNotEmpty)
+            ? Text(Constants.userDetails['username'])
+            : Text("-----"),
+      ),
       body: ListView(
         children: [
           Container(
             child: Column(
               children: [
-                Text("N2000"),
                 Container(
                   child: Text("Balance"),
+                ),
+                Text(
+                  "N${Constants.userDetails['balance']}",
+                  style: TextStyle(fontSize: 30),
                 ),
                 Container(
                   padding: EdgeInsets.all(15),
@@ -102,8 +134,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   GestureDetector(
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => QrSend()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => QrSend(
+                                      data:
+                                          '${Constants.userDetails['username']}-${Constants.userDetails['email']}',
+                                    )));
                       },
                       child: Icon(
                         Icons.qr_code_scanner_outlined,
@@ -123,21 +160,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.bluetooth,
                     size: 70,
                   ),
-                  Divider(
+                  const Divider(
                     color: Colors.black,
                     thickness: 3.0,
                   ),
                   GestureDetector(
                       onTap: () {
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (_) => QrRecieve()));
-                        _showModalBottomSheet(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>  QrReceive( userid: widget.userid,)));
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.qr_code,
                         size: 70,
                       )),
@@ -148,17 +186,68 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void _showModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
           return Container(
-            // width:MediaQue
-            // Add your content here
+            height: MediaQuery.of(context).size.height * 0.9,
             child: Column(
               children: [
-              
-                Text('Modal Bottom Sheet'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 10,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    'Enter the amount',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: TextFormField(
+                    controller: _amountController,
+                    decoration: InputDecoration(
+                      hintText: "Enter Amount",
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.purple[100],
+                  ),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: TextButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => QrReceive(
+                                      userid: widget.userid,
+                                    )));
+                      },
+                      icon: Icon(Icons.arrow_forward_ios),
+                      label: Text(
+                        "Continue",
+                      )),
+                )
                 // Add more widgets as needed
               ],
             ),

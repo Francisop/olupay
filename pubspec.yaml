@@ -41,6 +41,8 @@ dependencies:
   cloud_firestore: ^4.8.0
   ai_barcode_scanner: ^0.0.7
   flutter_blue_plus: ^1.5.2
+  fluttertoast: ^8.2.1
+  pinput: ^2.2.31
 
 dev_dependencies:
   flutter_test:

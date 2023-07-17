@@ -1,77 +1,35 @@
-import 'dart:typed_data';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter/material.dart';
-// import 'package:permission_handler/permission_handler.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
-class QrSend extends StatefulWidget {
-  const QrSend({super.key});
-
-  @override
-  State<QrSend> createState() => _QrSendState();
-}
-
-class _QrSendState extends State<QrSend> {
-  MobileScannerController cameraController = MobileScannerController();
-  bool face = false;
-  CameraFacing changeCameraFace() {
-    if (face == false) {
-      return CameraFacing.back;
-    } else {
-      return CameraFacing.front;
-    }
-  }
-
+class QrSend extends StatelessWidget {
+  String data = "";
+  QrSend({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Scan Code'),
-        ),
-        body: Container(
-          child: Column(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.5,
-                // height: MediaQuery.of(context).size. * 0.5,
-                child: MobileScanner(
-                  controller: MobileScannerController(
-                    detectionSpeed: DetectionSpeed.normal,
-                    facing: changeCameraFace(),
-                    torchEnabled: true,
+      appBar: AppBar(
+        title: Text("Qrcode"),
+        centerTitle: true,
+      ),
+      body: Container(
+        child: Column(children: [
+          Center(
+            child: (data != '')
+                ? Container(
+                    child: QrImageView(
+                      data: data,
+                      version: QrVersions.auto,
+                      size: 300.0,
+                    ),
+                  )
+                : Center(
+                    child: CircularProgressIndicator(),
                   ),
-                  fit: BoxFit.contain,
-                  onDetect: (capture) {
-                    final List<Barcode> barcodes = capture.barcodes;
-                    final Uint8List? image = capture.image;
-                    for (final barcode in barcodes) {
-                      debugPrint('Barcode found! ${barcode.rawValue}');
-                    }
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 100,
-              ),
-              Center(
-                child: Container(
-                  child: GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        face = true;
-                      });
-                    },
-                    child: CircleAvatar(
-                        radius: 50,
-                        child: Icon(
-                          Icons.cameraswitch_rounded,
-                          size: 40,
-                        )),
-                  ),
-                ),
-              )
-            ],
           ),
-        ));
+          Text('Scan code to transfer to ${data.split('-').first.toUpperCase()}')
+        ]),
+      ),
+    );
   }
 }

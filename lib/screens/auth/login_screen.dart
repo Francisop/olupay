@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:olupay/screens/auth/register_screen.dart';
 
 import '../../service/auth_service.dart';
+import '../home/dashboard_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              Center(
+              const Center(
                   child: Text("Welcome, sign in to continue to your account")),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -60,16 +61,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.purple,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      _auth.login(_emailController, _passController);
+                      _auth
+                          .login(_emailController.text.trim().toLowerCase(),
+                              _passController.text)
+                          .then((val) => {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            DashboardScreen(userid: val)))
+                              });
                     }
                   },
-                  child: Text("Login"),
+                  child: const Text("Login"),
                 ),
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => RegisterScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const RegisterScreen()));
                   },
                   child: const Text("Sign up"))
             ],
